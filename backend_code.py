@@ -1,4 +1,3 @@
-#Aayush bhaiya aapna code yaha pe dalna
 grid = [
     [3, 0,6,5,0,8,4,0,0],
     [5,2,0,0,0,0,0,0,0],
