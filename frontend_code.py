@@ -4,6 +4,7 @@ import sys
 import time
 import os
 
+#os.chdir(r"C:\Users\Prisha\Desktop\Prisha\Python\TS\Velocity Sudoku solver\Velocity_prog-main")
 def sol(grid, hori, vert, num):
     for a in range(9):
         if grid[hori][a] == num:
@@ -79,16 +80,27 @@ sud1 = False
 count_sud = 0
 array = ""
 grid = ""
+col = 0
 
 LIME = (0, 255, 21)
 LIGHTYELLOW = (252, 229, 202)
 RED = (204, 111, 106)
+LG = (202,252,207)
+DG = (135, 168, 139)
+LB = (202, 234, 252)
+DB = (135, 156, 168)
+LP = (252, 202, 202)
+DP = (181, 137, 137)
+LBG = (180, 255, 232)
+DPU = (139, 165, 173)
 infocir = pygame.draw.ellipse (screen, LIME, [10, 5, 30,30], 3)
-wallcir = pygame.draw.rect (screen, LIME, [558, 5, 30, 30], 3)
+wallcir = pygame.draw.rect (screen, LIME, [495, 17, 100, 20], 3)
 
 sudokuempty = pygame.image.load("empty_sudoku_board.png")
 sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
 solve_rect = pygame.draw.rect(screen,LIME,(270, 600, 60,20))
+
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -112,7 +124,10 @@ while True:
             if not infocir.collidepoint(event.pos):
                 infoclick = False
             if wallcir.collidepoint(event.pos):
-                print("wall")
+                if not col == 4:
+                    col +=1
+                else:col=0
+
             if solve_rect.collidepoint(event.pos):
                 sud(grid, 0, 0)
                 sud1 = 1
@@ -139,9 +154,51 @@ while True:
                 if event.key == pygame.K_BACKSPACE:
                     backsp = False
                     backsp_c = 0
-    info = base_font1.render("HOW TO PLAY?", True, RED)
-    solve = base_font2.render("SOLVE", True, RED)
-    screen.fill(LIGHTYELLOW)
+    if col == 0:
+        info = base_font1.render("HOW TO PLAY?", True, RED)
+        wall = base_font1.render("SWITCH COLOR", True, RED)
+        solve = base_font2.render("SOLVE", True, RED)
+       
+        text_surface_b = base_font2.render("SUBMIT", True, RED)
+        text_navbar = navbar_font.render("SUDOKU SOLVER", True, RED)
+        screen.fill(LIGHTYELLOW)
+        pygame.draw.rect(screen, RED, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+    elif col == 1:
+        info = base_font1.render("HOW TO PLAY?", True, DG)
+        wall = base_font1.render("SWITCH COLOR", True, DG)
+        solve = base_font2.render("SOLVE", True, DG)
+        
+        text_surface_b = base_font2.render("SUBMIT", True, DG)
+        text_navbar = navbar_font.render("SUDOKU SOLVER", True, DG)
+        screen.fill(LG)
+        pygame.draw.rect(screen, DG, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+    elif col == 2:
+        info = base_font1.render("HOW TO PLAY?", True, DB)
+        wall = base_font1.render("SWITCH COLOR", True, DB)
+        solve = base_font2.render("SOLVE", True, DB)
+        
+        text_surface_b = base_font2.render("SUBMIT", True, DB)
+        text_navbar = navbar_font.render("SUDOKU SOLVER", True, DB)
+        screen.fill(LB)
+        pygame.draw.rect(screen, DB, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+    elif col == 3:
+        info = base_font1.render("HOW TO PLAY?", True, DP)
+        wall = base_font1.render("SWITCH COLOR", True, DP)
+        solve = base_font2.render("SOLVE", True, DP)
+        
+        text_surface_b = base_font2.render("SUBMIT", True, DP)
+        text_navbar = navbar_font.render("SUDOKU SOLVER", True, DP)
+        screen.fill(LP)
+        pygame.draw.rect(screen, DP, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+    elif col == 4:
+        info = base_font1.render("HOW TO PLAY?", True, DPU)
+        wall = base_font1.render("SWITCH COLOR", True, DPU)
+        solve = base_font2.render("SOLVE", True, DPU)
+        
+        text_surface_b = base_font2.render("SUBMIT", True, DPU)
+        text_navbar = navbar_font.render("SUDOKU SOLVER", True, DPU)
+        screen.fill(LBG)
+        pygame.draw.rect(screen, DPU, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
     if active:
         color = color_active
     else:
@@ -179,18 +236,19 @@ while True:
         break
    
     
-    pygame.draw.rect(screen, RED, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+  
     screen.blit(text_surface, (input_rect.x+10, input_rect.y+3))
 
     
-    text_surface_b = base_font2.render("SUBMIT", True, RED)
+   
     screen.blit(text_surface_b, (submit_rect.x+7, submit_rect.y+2))
-
-    text_navbar = navbar_font.render("SUDOKU SOLVER", True, RED)
+   
     screen.blit(text_navbar, (160, 5))
     
     screen.blit(solve, (275, 600))
     
+
+    screen.blit(wall, [500, 20])
     screen.blit(info, [10, 20])
     input_rect.w = 530
     sudx, sudy = 93, 85
