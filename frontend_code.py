@@ -2,9 +2,8 @@ import pygame
 import tkinter
 import sys
 import time
-import os
+import webbrowser
 
-#os.chdir(r"C:\Users\Prisha\Desktop\Prisha\Python\TS\Velocity Sudoku solver\Velocity_prog-main")
 def sol(grid, hori, vert, num):
     for a in range(9):
         if grid[hori][a] == num:
@@ -93,13 +92,12 @@ LP = (252, 202, 202)
 DP = (181, 137, 137)
 LBG = (180, 255, 232)
 DPU = (139, 165, 173)
-infocir = pygame.draw.ellipse (screen, LIME, [10, 5, 30,30], 3)
-wallcir = pygame.draw.rect (screen, LIME, [495, 17, 100, 20], 3)
 
+wallcir = pygame.draw.rect (screen, LIME, [495, 17, 100, 20], 3)
+infocir = pygame.draw.rect (screen, LIME, [5, 20, 100,20], 3)
 sudokuempty = pygame.image.load("empty_sudoku_board.png")
 sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
 solve_rect = pygame.draw.rect(screen,LIME,(270, 600, 60,20))
-
 
 while True:
     for event in pygame.event.get():
@@ -120,7 +118,9 @@ while True:
                 count_sud = 0
                 sud1 = True
             if infocir.collidepoint(event.pos):
-                infoclick = True
+                webbrowser.open_new('https://docs.google.com/document/d/1Q7CcOne9C1ZnbDKjuZg4GxKqMoB_qysEYL3IcXjv3pw/edit')
+                
+
             if not infocir.collidepoint(event.pos):
                 infoclick = False
             if wallcir.collidepoint(event.pos):
@@ -158,7 +158,8 @@ while True:
         info = base_font1.render("HOW TO PLAY?", True, RED)
         wall = base_font1.render("SWITCH COLOR", True, RED)
         solve = base_font2.render("SOLVE", True, RED)
-       
+        sudokuempty = pygame.image.load("empty_sudoku_board.png")
+        sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
         text_surface_b = base_font2.render("SUBMIT", True, RED)
         text_navbar = navbar_font.render("SUDOKU SOLVER", True, RED)
         screen.fill(LIGHTYELLOW)
@@ -167,7 +168,8 @@ while True:
         info = base_font1.render("HOW TO PLAY?", True, DG)
         wall = base_font1.render("SWITCH COLOR", True, DG)
         solve = base_font2.render("SOLVE", True, DG)
-        
+        sudokuempty = pygame.image.load("su1.png")
+        sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
         text_surface_b = base_font2.render("SUBMIT", True, DG)
         text_navbar = navbar_font.render("SUDOKU SOLVER", True, DG)
         screen.fill(LG)
@@ -176,7 +178,8 @@ while True:
         info = base_font1.render("HOW TO PLAY?", True, DB)
         wall = base_font1.render("SWITCH COLOR", True, DB)
         solve = base_font2.render("SOLVE", True, DB)
-        
+        sudokuempty = pygame.image.load("su3.png")
+        sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
         text_surface_b = base_font2.render("SUBMIT", True, DB)
         text_navbar = navbar_font.render("SUDOKU SOLVER", True, DB)
         screen.fill(LB)
@@ -185,7 +188,8 @@ while True:
         info = base_font1.render("HOW TO PLAY?", True, DP)
         wall = base_font1.render("SWITCH COLOR", True, DP)
         solve = base_font2.render("SOLVE", True, DP)
-        
+        sudokuempty = pygame.image.load("Picture1.png")
+        sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
         text_surface_b = base_font2.render("SUBMIT", True, DP)
         text_navbar = navbar_font.render("SUDOKU SOLVER", True, DP)
         screen.fill(LP)
@@ -194,7 +198,8 @@ while True:
         info = base_font1.render("HOW TO PLAY?", True, DPU)
         wall = base_font1.render("SWITCH COLOR", True, DPU)
         solve = base_font2.render("SOLVE", True, DPU)
-        
+        sudokuempty = pygame.image.load("su5.png")
+        sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
         text_surface_b = base_font2.render("SUBMIT", True, DPU)
         text_navbar = navbar_font.render("SUDOKU SOLVER", True, DPU)
         screen.fill(LBG)
@@ -234,15 +239,11 @@ while True:
 
             break
         break
-   
-    
   
     screen.blit(text_surface, (input_rect.x+10, input_rect.y+3))
-
-    
    
     screen.blit(text_surface_b, (submit_rect.x+7, submit_rect.y+2))
-   
+
     screen.blit(text_navbar, (160, 5))
     
     screen.blit(solve, (275, 600))
@@ -256,6 +257,7 @@ while True:
     if sud1:
         if count_sud < 1:
             grid = eval(array)
+
         for i in grid:
             for f in i:
                 if f == 0:
