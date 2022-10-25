@@ -1,1 +1,3 @@
-lorem ipsum lorem ipsum
+We present you our simple yet very effective sudoku solver.
+ps- After u press any button or text box it doesnt show anything but it works
+pps- The solve button is a bit slow and takes around 5-6 secs to work to dont spam it and be patient it takes time cuz pygame is very slow...
