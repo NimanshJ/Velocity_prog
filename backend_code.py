@@ -1,4 +1,12 @@
-grid = eval(input())
+grid = [[0,0,7,0,4,0,0,0,0],
+[0,0,0,0,0,8,0,0,6],
+[0,4,1,0,0,0,9,0,0],
+[0,0,0,0,0,0,1,7,0],
+[0,0,0,0,0,6,0,0,0],
+[0,0,8,7,0,0,2,0,0],
+[3,0,0,0,0,0,0,0,0],
+[0,0,0,1,2,0,0,0,0],
+[8,6,0,0,7,0,0,0,5]]
 
 def sol(grid, hori, vert, num):
     for a in range(9):
@@ -30,7 +38,6 @@ def sud(grid, hori, vert):
                 return True
         grid[hori][vert] = 0
        
-sud(grid, 0, 0);
+sud(grid, 0, 0)
 
-for i in grid:
-    print(i)
+print(grid)

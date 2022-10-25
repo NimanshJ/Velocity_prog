@@ -4,7 +4,35 @@ import sys
 import time
 import os
 
-#os.chdir(r"C:\Users\Prisha\Desktop\Prisha\Python\TS\Velocity Sudoku solver\Velocity_prog-main")
+def sol(grid, hori, vert, num):
+    for a in range(9):
+        if grid[hori][a] == num:
+            return False
+    for a in range(9):
+        if grid[a][vert] == num:
+            return False
+    startHori = hori - hori % 3
+    startVert = vert - vert % 3
+    for q in range(3):
+        for r in range(3):
+            if grid[q + startHori][r + startVert] == num:
+                return False
+    return True
+
+def sud(grid, hori, vert):
+    if (hori == 9 - 1 and vert == 9):
+        return True
+    if vert == 9:
+        hori += 1
+        vert = 0
+    if grid[hori][vert] > 0:
+        return sud(grid, hori, vert + 1)
+    for num in range(1, 10, 1):
+        if sol(grid, hori, vert, num):
+            grid[hori][vert] = num
+            if sud(grid, hori, vert + 1):
+                return True
+        grid[hori][vert] = 0
 
 root = tkinter.Tk()
 root.withdraw()
@@ -38,23 +66,18 @@ color_p = pygame.Color((110, 110, 110))
 color_b = color_p
 count_b = 0
 
+solve_rect = pygame.Rect(482, 600, 80, 23)
+
 active = False
 ctrl = False
 backsp = False
 infoclick = False
 backsp_c = 0
 copy = True
-sud = False
+sud1 = False
+count_sud = 0
 array = ""
-grid = [[0,0,7,0,4,0,0,0,0],
-[0,0,0,0,0,8,0,0,6],
-[0,4,1,0,0,0,9,0,0],
-[0,0,0,0,0,0,1,7,0],
-[0,0,0,0,0,6,0,0,0],
-[0,0,8,7,0,0,2,0,0],
-[3,0,0,0,0,0,0,0,0],
-[0,0,0,1,2,0,0,0,0],
-[8,6,0,0,7,0,0,0,5]]
+grid = ""
 
 LIGHTGREY = (110, 110, 110)
 LIME = (0, 255, 21)
@@ -77,7 +100,6 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print(event.pos)
             if input_rect.collidepoint(event.pos):
                 active = True
             elif not input_rect.collidepoint(event.pos):
@@ -85,18 +107,20 @@ while True:
             else:
                 active = False
             if submit_rect.collidepoint(event.pos):
-                array = user_text
                 user_text = ""
                 color_b = color_a
                 count_b = 0
-                sud = True
+                count_sud = 0
+                sud1 = True
             if infocir.collidepoint(event.pos):
                 infoclick = True
             if not infocir.collidepoint(event.pos):
                 infoclick = False
-
             if wallcir.collidepoint(event.pos):
                 print("wall")
+            if solve_rect.collidepoint(event.pos):
+                sud(grid, 0, 0)
+                sud1 = 1
         if event.type == pygame.KEYDOWN:
             if not active:
                 if event.key == pygame.K_q:
@@ -149,7 +173,6 @@ while True:
             copy = False
     text_width, text_height = base_font.size(user_text)
     screen.blit(sudokuempty, [75, 70])
-    
     for i in range(100000):
         if text_width > 440:
             user_text = user_text[:-1]
@@ -171,13 +194,17 @@ while True:
     text_navbar = navbar_font.render("Sudoku Solver", True, (0, 200, 255))
     screen.blit(text_navbar, (180, -5))
 
+    pygame.draw.rect(screen, color_b, solve_rect, border_radius=20)
+
     screen.blit(wall, [558, 5])
     screen.blit(info, [10, 5])
     input_rect.w = 530
     sudx, sudy = 93, 85
-    # Ek min de mai net dekhta yeh karne de pehle
-    if sud:
-        grid = eval(array)
+
+    if sud1:
+        if count_sud < 1:
+            grid = eval(array)
+            print(grid)
         for i in grid:
             for f in i:
                 if f == 0:
@@ -187,6 +214,7 @@ while True:
                 sudx += 50
             sudx = 93
             sudy += 50
+        count_sud += 1
 
     if infoclick:
         pygame.draw.rect(screen, DARKGREY, [50,50   , 375, 170])
