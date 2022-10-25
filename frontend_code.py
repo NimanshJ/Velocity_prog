@@ -45,9 +45,10 @@ screen_height = 650
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Sudoku Solver')
 
-base_font = pygame.font.Font("Outfit.ttf", 25)
-base_font1 = pygame.font.Font("Outfit-SemiBold.ttf", 20)
-navbar_font = pygame.font.Font("dosis.ttf", 42)
+base_font = pygame.font.Font("Rubik-VariableFont_wght.ttf", 20)
+base_font1 = pygame.font.Font("Rubik-VariableFont_wght.ttf", 13)
+base_font2 = pygame.font.Font("Rubik-VariableFont_wght.ttf", 17)
+navbar_font = pygame.font.Font("Rubik-Bold.ttf", 35)
 sud_font = pygame.font.Font(None, 35)
 user_text = ''
 
@@ -55,7 +56,7 @@ navbar_rect = pygame.Rect(0, 0, 600, 42)
 
 sudx, sudy = 80, 75
 
-input_rect = pygame.Rect(32, 550, 200, 27)
+input_rect = pygame.Rect(32, 550, 200, 32)
 color_active = pygame.Color((190, 190, 190))
 color_passive = pygame.Color((150, 150, 150))
 color = color_passive
@@ -67,7 +68,7 @@ color_b = color_p
 count_b = 0
 
 solve_rect = pygame.Rect(482, 600, 80, 23)
-
+pygame.draw.rect(screen, color_b, submit_rect, border_radius=20)
 active = False
 ctrl = False
 backsp = False
@@ -79,21 +80,15 @@ count_sud = 0
 array = ""
 grid = ""
 
-LIGHTGREY = (110, 110, 110)
 LIME = (0, 255, 21)
-DARKGREY = (90, 90 , 90)
+LIGHTYELLOW = (252, 229, 202)
+RED = (204, 111, 106)
 infocir = pygame.draw.ellipse (screen, LIME, [10, 5, 30,30], 3)
 wallcir = pygame.draw.rect (screen, LIME, [558, 5, 30, 30], 3)
 
 sudokuempty = pygame.image.load("empty_sudoku_board.png")
-info = pygame.image.load("icon_info.png")
-wall  = pygame.image.load("icon_bg.png")
 sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
-info = pygame.transform.scale(info, [32, 32])
-wall = pygame.transform.scale(wall, [32, 32])
-
-#text_width, text_height = base_font.size(user_text)
-
+solve_rect = pygame.draw.rect(screen,LIME,(270, 600, 60,20))
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -144,8 +139,9 @@ while True:
                 if event.key == pygame.K_BACKSPACE:
                     backsp = False
                     backsp_c = 0
-    
-    screen.fill((50, 50, 50))
+    info = base_font1.render("HOW TO PLAY?", True, RED)
+    solve = base_font2.render("SOLVE", True, RED)
+    screen.fill(LIGHTYELLOW)
     if active:
         color = color_active
     else:
@@ -183,28 +179,25 @@ while True:
         break
    
     
-    pygame.draw.rect(screen, color, input_rect, width=0, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
-    screen.blit(text_surface, (input_rect.x+5, input_rect.y))
+    pygame.draw.rect(screen, RED, input_rect, width=3, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
+    screen.blit(text_surface, (input_rect.x+10, input_rect.y+3))
 
-    pygame.draw.rect(screen, color_b, submit_rect, border_radius=20)
-    text_surface_b = base_font1.render("Submit", True, (1, 1, 1))
+    
+    text_surface_b = base_font2.render("SUBMIT", True, RED)
     screen.blit(text_surface_b, (submit_rect.x+7, submit_rect.y+2))
 
-    pygame.draw.rect(screen, LIGHTGREY, navbar_rect, border_bottom_left_radius=5, border_bottom_right_radius=5)
-    text_navbar = navbar_font.render("Sudoku Solver", True, (0, 200, 255))
-    screen.blit(text_navbar, (180, -5))
-
-    pygame.draw.rect(screen, color_b, solve_rect, border_radius=20)
-
-    screen.blit(wall, [558, 5])
-    screen.blit(info, [10, 5])
+    text_navbar = navbar_font.render("SUDOKU SOLVER", True, RED)
+    screen.blit(text_navbar, (160, 5))
+    
+    screen.blit(solve, (275, 600))
+    
+    screen.blit(info, [10, 20])
     input_rect.w = 530
     sudx, sudy = 93, 85
 
     if sud1:
         if count_sud < 1:
             grid = eval(array)
-            print(grid)
         for i in grid:
             for f in i:
                 if f == 0:
@@ -216,7 +209,5 @@ while True:
             sudy += 50
         count_sud += 1
 
-    if infoclick:
-        pygame.draw.rect(screen, DARKGREY, [50,50   , 375, 170])
     pygame.display.update()
     clock.tick(60)
