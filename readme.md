@@ -15,3 +15,5 @@ python frontend_code.py
 
 ### How to play
 https://docs.google.com/document/d/1Q7CcOne9C1ZnbDKjuZg4GxKqMoB_qysEYL3IcXjv3pw/edit?usp=sharing
+
+**https://www.youtube.com/watch?v=peyqENk1-KA**
