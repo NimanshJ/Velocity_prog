@@ -23,7 +23,7 @@ navbar_font = pygame.font.Font("dosis.ttf", 42)
 user_text = ''
 
 navbar_rect = pygame.Rect(0, 0, 600, 42)
-color_nav = (140, 140, 140)
+color_nav = (110, 110, 110)
 
 input_rect = pygame.Rect(35, 550, 200, 27)
 color_active = pygame.Color((190, 190, 190))
@@ -134,8 +134,8 @@ while True:
     screen.blit(text_surface_b, (submit_rect.x+7, submit_rect.y+2))
 
     pygame.draw.rect(screen, color_nav, navbar_rect, border_bottom_left_radius=5, border_bottom_right_radius=5)
-    text_navbar = navbar_font.render("Sudoku Solver", True, (140, 140, 200))
-    screen.blit(text_navbar, (200, -5))
+    text_navbar = navbar_font.render("Sudoku Solver", True, (0, 200, 255))
+    screen.blit(text_navbar, (180, -5))
 
 
     input_rect.w = 530
