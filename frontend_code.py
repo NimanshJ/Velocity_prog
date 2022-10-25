@@ -20,12 +20,14 @@ pygame.display.set_caption('Sudoku Solver')
 base_font = pygame.font.Font("Outfit.ttf", 25)
 base_font1 = pygame.font.Font("Outfit-SemiBold.ttf", 20)
 navbar_font = pygame.font.Font("dosis.ttf", 42)
+sud_font = pygame.font.Font(None, 35)
 user_text = ''
 
 navbar_rect = pygame.Rect(0, 0, 600, 42)
-color_nav = (110, 110, 110)
 
-input_rect = pygame.Rect(35, 550, 200, 27)
+sudx, sudy = 80, 75
+
+input_rect = pygame.Rect(32, 550, 200, 27)
 color_active = pygame.Color((190, 190, 190))
 color_passive = pygame.Color((150, 150, 150))
 color = color_passive
@@ -39,12 +41,34 @@ count_b = 0
 active = False
 ctrl = False
 backsp = False
+infoclick = False
 backsp_c = 0
 copy = True
+sud = False
 array = ""
+grid = [[0,0,7,0,4,0,0,0,0],
+[0,0,0,0,0,8,0,0,6],
+[0,4,1,0,0,0,9,0,0],
+[0,0,0,0,0,0,1,7,0],
+[0,0,0,0,0,6,0,0,0],
+[0,0,8,7,0,0,2,0,0],
+[3,0,0,0,0,0,0,0,0],
+[0,0,0,1,2,0,0,0,0],
+[8,6,0,0,7,0,0,0,5]]
+
+LIGHTGREY = (110, 110, 110)
+LIME = (0, 255, 21)
+DARKGREY = (90, 90 , 90)
+infocir = pygame.draw.ellipse (screen, LIME, [10, 5, 30,30], 3)
+wallcir = pygame.draw.rect (screen, LIME, [558, 5, 30, 30], 3)
 
 sudokuempty = pygame.image.load("empty_sudoku_board.png")
+info = pygame.image.load("icon_info.png")
+wall  = pygame.image.load("icon_bg.png")
 sudokuempty = pygame.transform.scale(sudokuempty, [450, 450])
+info = pygame.transform.scale(info, [32, 32])
+wall = pygame.transform.scale(wall, [32, 32])
+
 #text_width, text_height = base_font.size(user_text)
 
 while True:
@@ -53,6 +77,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
+            print(event.pos)
             if input_rect.collidepoint(event.pos):
                 active = True
             elif not input_rect.collidepoint(event.pos):
@@ -64,7 +89,14 @@ while True:
                 user_text = ""
                 color_b = color_a
                 count_b = 0
+                sud = True
+            if infocir.collidepoint(event.pos):
+                infoclick = True
+            if not infocir.collidepoint(event.pos):
+                infoclick = False
 
+            if wallcir.collidepoint(event.pos):
+                print("wall")
         if event.type == pygame.KEYDOWN:
             if not active:
                 if event.key == pygame.K_q:
@@ -117,6 +149,7 @@ while True:
             copy = False
     text_width, text_height = base_font.size(user_text)
     screen.blit(sudokuempty, [75, 70])
+    
     for i in range(100000):
         if text_width > 440:
             user_text = user_text[:-1]
@@ -126,6 +159,7 @@ while True:
             break
         break
    
+    
     pygame.draw.rect(screen, color, input_rect, width=0, border_radius=20, border_top_left_radius=40, border_top_right_radius=40, border_bottom_left_radius=40, border_bottom_right_radius=40) #input button  
     screen.blit(text_surface, (input_rect.x+5, input_rect.y))
 
@@ -133,12 +167,28 @@ while True:
     text_surface_b = base_font1.render("Submit", True, (1, 1, 1))
     screen.blit(text_surface_b, (submit_rect.x+7, submit_rect.y+2))
 
-    pygame.draw.rect(screen, color_nav, navbar_rect, border_bottom_left_radius=5, border_bottom_right_radius=5)
+    pygame.draw.rect(screen, LIGHTGREY, navbar_rect, border_bottom_left_radius=5, border_bottom_right_radius=5)
     text_navbar = navbar_font.render("Sudoku Solver", True, (0, 200, 255))
     screen.blit(text_navbar, (180, -5))
 
-
+    screen.blit(wall, [558, 5])
+    screen.blit(info, [10, 5])
     input_rect.w = 530
+    sudx, sudy = 93, 85
+    # Ek min de mai net dekhta yeh karne de pehle
+    if sud:
+        grid = eval(array)
+        for i in grid:
+            for f in i:
+                if f == 0:
+                    f = " "
+                text_sud = sud_font.render(str(f), True, (0, 0, 0))
+                screen.blit(text_sud, (sudx, sudy))
+                sudx += 50
+            sudx = 93
+            sudy += 50
 
+    if infoclick:
+        pygame.draw.rect(screen, DARKGREY, [50,50   , 375, 170])
     pygame.display.update()
     clock.tick(60)
